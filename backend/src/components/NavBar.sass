@@ -1,0 +1,39 @@
+$navBarWidth: 250px
+$navBarColor1: #2980B9
+$navBarColor2: #3498DB
+
+.navbar_container
+    height: 100%
+    width: $navBarWidth
+    background-color: $navBarColor1
+    color: #F5F5F5
+    overflow: auto
+    user-select: none
+    .navbar_item
+        cursor: pointer
+        .navbar_item_title
+            width: 100%
+            height: 50px
+            display: flex
+            justify-content: center
+            align-items: center
+            font-size: 18px
+        .navbar_subitem_container
+            width: 100%
+            height: 100%
+            background-color: $navBarColor2
+            .navbar_subitem
+                width: 100%
+                height: 40px
+                display: flex
+                justify-content: center
+                align-items: center
+                font-size: 14px
+    .navbar_title
+        display: flex
+        justify-content: center
+        align-items: center
+        box-sizing: content-box
+        font-size: 25px
+        padding-top: 10px
+        padding-bottom: 10px

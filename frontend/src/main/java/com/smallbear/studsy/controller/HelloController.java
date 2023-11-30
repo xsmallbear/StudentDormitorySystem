@@ -9,4 +9,10 @@ public class HelloController {
     public String sayHello(){
         return "HELLO";
     }
+
+    @RequestMapping("/randNumer")
+    public String randNumber(){
+        double number = (Math.random() * 10);
+        return new String(String.valueOf(number));
+    }
 }

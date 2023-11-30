@@ -1,4 +1,5 @@
-import "./NavBar.css"
+import { useState } from "react"
+import "./NavBar.sass"
 
 interface NavSubItem {
     href?: string
@@ -16,26 +17,35 @@ interface props {
 }
 
 const Navbar: React.FC<props> = ({ title, navItems }) => {
-    return <>
-        <div className="navbar_container">
-            <div className="navbar_title">
-                {title}
-            </div>
-            {
-                navItems?.map(navItem => <div className="navbar_item">
-                    <div className="navbar_item_title">{navItem.text}</div>
-                    <div className="navbar_subitem_container">
+    const [itemStates, setItemStates] = useState<{ [key: number]: boolean }>({})
+    return <div className="navbar_container">
+        <div className="navbar_title">
+            {title}
+        </div>
+        {
+            navItems?.map((navItem, index) => (
+                <div key={index} className="navbar_item">
+                    <div className="navbar_item_title"
+                        onClick={() => {
+                            setItemStates(p => ({ ...p, [index]: !p[index] }))
+                        }}
+                    >
+                        {navItem.text}
+                    </div>
+                    <div style={{
+                        display: itemStates[index] ? "block" : "none"
+                    }} className="navbar_subitem_container">
                         {
-                            navItem.subItems?.map(subItem =>
-                                <div className="navbar_subitem">
+                            navItem.subItems?.map((subItem, subIndex) =>
+                                <div key={subIndex} className="navbar_subitem">
                                     {subItem.text}
                                 </div>)
                         }
                     </div>
-                </div>)
-            }
-        </div>
-    </>
+                </div>
+            ))
+        }
+    </div >
 }
 
 export default Navbar
