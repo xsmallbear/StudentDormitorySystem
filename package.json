@@ -1,0 +1,12 @@
+{
+  "name": "StudentDormitorySystem",
+  "private": "true",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/xsmallbear/StudentDormitorySystem.git",
+  "author": "SmallBear <bigstarcat520@gmail.com>",
+  "license": "LGPL-3.0-only",
+  "scripts": {
+    "maven": "echo 'test'"
+  }
+}
