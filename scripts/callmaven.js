@@ -12,8 +12,9 @@ if (os.platform() === 'win32') {
     //linux or macos use "mvnw"
     mvnwCmd += "/mvnw"
 }
+const parementer = process.argv[2]
 
-const child = spawn(mvnwCmd, ["spring-boot:run"], {
+const child = spawn(mvnwCmd, [parementer], {
     cwd: frontendLocation
 })
 

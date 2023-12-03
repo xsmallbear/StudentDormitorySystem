@@ -7,6 +7,11 @@
   "author": "SmallBear <bigstarcat520@gmail.com>",
   "license": "LGPL-3.0-only",
   "scripts": {
-    "frontend:run": "node scripts/callmaven.js"
+    "backend:start": "yarn --cwd ./backend run start",
+    "backend:build": "yarn --cwd ./backend run build",
+    "backend:test": "yarn --cwd ./backend run test",
+    "frontend:run": "node scripts/callmaven.js spring-boot:run",
+    "frontend:jar": "node scripts/callmaven.js jar:jar",
+    "frontend:clean": "node scripts/callmaven.js clean"
   }
 }
