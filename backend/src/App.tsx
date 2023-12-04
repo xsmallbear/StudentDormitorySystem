@@ -1,33 +1,44 @@
-import './App.sass';
+import "./App.sass";
 import {
-  createBrowserRouter,
-  RouterProvider,
+  BrowserRouter,
   Route,
-  Link,
+  Routes
 } from "react-router-dom";
-import Home from './pages/Home';
-import Login from './pages/Login';
+import Home from "./layout/Home";
+import Login from "./layout/Login";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />
-  },
-  {
-    path: "home",
-    element: <Home />,
-    children: [
-      {
-      }
-    ]
-  }
-]);
+import DormitoriesList from "./pages/DormitoriesList";
+import StudentList from "./pages/StudentList";
+import Assets from "./pages/Assets";
+import Repairs from "./pages/Repairs";
+import Electricity from "./pages/Electricity";
+import Visitors from "./pages/Visitors";
+import ManagersSetting from "./pages/ManagersSetting";
+import DormitoriesDis from "./pages/DormitoriesDis";
+import Departments from "./pages/Departments";
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="/" element={<Home />} >
+          {/*  */}
+          <Route path="managersSetting" element={<ManagersSetting />} />
+          {/*  */}
+          <Route path="dormitoriesList" element={<DormitoriesList />} />
+          <Route path="dormitoriesDis" element={<DormitoriesDis />} />
+          {/*  */}
+          <Route path="studnetList" element={<StudentList />} />
+          <Route path="departments" element={<Departments />} />
+          {/*  */}
+          <Route path="assets" element={<Assets />} />
+          <Route path="repairs" element={<Repairs />} />
+          <Route path="electricity" element={<Electricity />} />
+          <Route path="visitors" element={<Visitors />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
