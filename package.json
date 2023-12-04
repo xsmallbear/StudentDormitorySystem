@@ -13,5 +13,8 @@
     "frontend:run": "node scripts/callmaven.js spring-boot:run",
     "frontend:jar": "node scripts/callmaven.js jar:jar",
     "frontend:clean": "node scripts/callmaven.js clean"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.3.1"
   }
 }
