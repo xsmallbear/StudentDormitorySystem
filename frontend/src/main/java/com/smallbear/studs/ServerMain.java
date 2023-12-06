@@ -1,34 +1,31 @@
 package com.smallbear.studs;
 
-import com.smallbear.studs.apis.LoginApi;
-import com.smallbear.studs.handles.JsonHandler;
-import com.smallbear.studs.handles.LoggingHandler;
+import com.smallbear.studs.servlet.LoginApi;
+import com.smallbear.studs.filter.EncodingFilter;
+import jakarta.servlet.DispatcherType;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 
-public class ServiceMain {
+import java.util.EnumSet;
+
+public class ServerMain {
     public static void main(String[] args) throws Exception {
         Server server = new Server(8080);
+        Connector connector = new ServerConnector(server);
+        server.addConnector(connector);
 
-        ContextHandlerCollection apiHandlers = new ContextHandlerCollection();
-        apiHandlers.addHandler(new ContextHandler(new LoginApi(), "/login"));
+        ServletContextHandler servletContext = new ServletContextHandler();
+        servletContext.setContextPath("/api");
 
-        Handler.Sequence sequence = new Handler.Sequence();
-        sequence.addHandler(new LoggingHandler());
-        sequence.addHandler(new JsonHandler());
-        sequence.addHandler(apiHandlers);
-        ContextHandler webApplication = new ContextHandler("/");
-        webApplication.setHandler(sequence);
+        servletContext.addServlet(LoginApi.class, "/login");
 
-        server.setHandler(webApplication);
+        servletContext.addFilter(EncodingFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
+
+        server.setHandler(servletContext);
 
         server.start();
         server.join();
     }
-
-
 }

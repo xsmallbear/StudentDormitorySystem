@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS ElectricityUsage (
 );
 
 -- 创建管理员表
-CREATE TABLE IF NOT EXISTS Managers (
+CREATE TABLE IF NOT EXISTS Manager (
     manager_id INT PRIMARY KEY AUTO_INCREMENT,
     manager_username VARCHAR(50) NOT NULL,
     manager_password_hash VARCHAR(255) NOT NULL,

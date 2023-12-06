@@ -1,4 +1,4 @@
-package com.smallbear.studs.middleware;
+package com.smallbear.studs.filter;
 
 import jakarta.servlet.*;
 
@@ -12,10 +12,6 @@ public class EncodingFilter implements Filter {
         servletRequest.setCharacterEncoding(encoding);
         servletResponse.setCharacterEncoding(encoding);
         servletResponse.setContentType("text/html;charset=" + encoding);
-
-        System.out.println("CALL FILTER");
-
-        // 继续处理请求
         filterChain.doFilter(servletRequest, servletResponse);
     }
 }

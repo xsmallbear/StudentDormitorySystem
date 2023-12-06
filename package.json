@@ -10,7 +10,7 @@
     "backend:start": "yarn --cwd ./backend run start",
     "backend:build": "yarn --cwd ./backend run build",
     "backend:test": "yarn --cwd ./backend run test",
-    "frontend:run": "node scripts/callmaven.js spring-boot:run",
+    "frontend:run": "node scripts/callmaven.js exec:java",
     "frontend:jar": "node scripts/callmaven.js jar:jar",
     "frontend:clean": "node scripts/callmaven.js clean"
   },
