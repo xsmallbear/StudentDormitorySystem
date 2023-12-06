@@ -1,6 +1,6 @@
 package com.smallbear.studs.model;
 
-public class Managers {
+public class Manager {
 
     private String managerId;
     private String managerUsername;
@@ -8,10 +8,10 @@ public class Managers {
     private String managerSalt;
     private String createTime;
 
-    public Managers() {
+    public Manager() {
     }
 
-    public Managers(String manager_id, String manager_username, String manager_password_hash, String manager_salt, String create_time) {
+    public Manager(String manager_id, String manager_username, String manager_password_hash, String manager_salt, String create_time) {
 
         this.managerId = manager_id;
         this.managerUsername = manager_username;

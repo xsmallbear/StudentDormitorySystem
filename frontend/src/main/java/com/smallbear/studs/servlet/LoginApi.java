@@ -1,27 +1,46 @@
 package com.smallbear.studs.servlet;
 
-
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.smallbear.studs.dao.ManagerDao;
-import com.smallbear.studs.model.Managers;
-import jakarta.servlet.ServletException;
+import com.smallbear.studs.model.Manager;
+import com.smallbear.studs.util.PwdSecureUtil;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
 
 public class LoginApi extends HttpServlet {
 
     ManagerDao managersDao = new ManagerDao();
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("CALL SERVER");
-        List<Managers> managers =  managersDao.getAllManagers();
-        managers.forEach(data->{
-            System.out.println(data.toString());
-        });
 
-        resp.getWriter().write("这是一个数据" + managers.size());
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String jsonString = readRequestBody(req);
+        JsonObject jsonObject = new Gson().fromJson(jsonString, JsonElement.class).getAsJsonObject();
+        String userName = jsonObject.get("userName").getAsString();
+        String password = jsonObject.get("password").getAsString();
+
+        Manager manager = managersDao.getManagerByName(userName);
+        String salt = manager.getManagerSalt();
+        String pwdHash = manager.getManagerPasswordHash();
+        boolean result =  PwdSecureUtil.verifyPassword(password, pwdHash, salt);
+        System.out.println(result);
     }
+
+    public String readRequestBody(HttpServletRequest request) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        reader.close();
+        return stringBuilder.toString();
+    }
+
+
 }
