@@ -1,0 +1,88 @@
+//宽度
+$navBarWidth: 250px;
+//基础色
+$navBarBasicColor: #1971c2;
+//展开色
+$navBarOpenedColor: #1864ab;
+//标题背景色
+$navBarTitleBgColor: #0b7285;
+//item徐中色
+$navBarHoverBgColor: #339af0;
+//文字颜色
+$navBarFontColor: #ffffff;
+
+//标题的文字大小
+$navItenTitleFontSize: 21px;
+//选项的文字大小
+$navItemFontSize: 16px;
+//子选项的文字大小
+$navSubItemFontSize: 12px;
+
+.navbar_container {
+    height: 100%;
+    width: $navBarWidth;
+    background-color: $navBarBasicColor;
+    color: $navBarFontColor;
+    user-select: none;
+    overflow-y: scroll;
+    overflow-y: overlay;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+
+    //定义滚动条轨道
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    // 定义滚动条的滑块
+    &::-webkit-scrollbar-thumb {
+        background-color: #339af0;
+        border-radius: 6px;
+    }
+
+    .navbar_item {
+        cursor: pointer;
+
+        .navbar_item_title {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: $navItemFontSize;
+        }
+
+        .navbar_subitem_container {
+            width: 100%;
+            height: 100%;
+            background-color: $navBarOpenedColor;
+            display: none;
+
+            &.open {
+                display: block;
+            }
+
+            .navbar_subitem {
+
+                width: 100%;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: $navSubItemFontSize;
+
+                &:hover {
+                    background-color: $navBarHoverBgColor;
+                    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+                }
+            }
+        }
+    }
+
+    .navbar_title {
+        text-align: center;
+        font-size: $navItenTitleFontSize;
+        background-color: $navBarTitleBgColor;
+        line-height: 60px;
+        height: 60px;
+    }
+}

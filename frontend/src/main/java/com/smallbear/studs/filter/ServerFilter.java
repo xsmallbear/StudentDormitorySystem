@@ -5,15 +5,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class EncodingFilter implements Filter {
+public class ServerFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String encoding = "UTF-8";
-        servletRequest.setCharacterEncoding(encoding);
-        servletResponse.setCharacterEncoding(encoding);
-        servletResponse.setContentType("application/json;charset=" + encoding);
+        servletRequest.setCharacterEncoding("UTF-8");
+        servletResponse.setCharacterEncoding("UTF-8");
 
+        //处理跨域
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");

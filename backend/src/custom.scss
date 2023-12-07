@@ -1,0 +1,23 @@
+/* The following block can be included in a custom.scss */
+
+$theme-colors: (
+    "primary":#1864ab,
+    "secondary": #adb5bd,
+    "success": #087f5b,
+    "info": #da77f2,
+    "warning": #f59f00,
+    "danger": #c92a2a,
+    "light": #f8f9fa,
+    "dark": #212529
+);
+
+// Button
+$btn-border-radius: 3px;
+
+//input
+$input-border-radius: 3px;
+$input-focus-border-color: red;
+$input-focus-box-shadow: none;
+
+/* import bootstrap to set changes */
+@import '~bootstrap/scss/bootstrap';

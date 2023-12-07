@@ -1,37 +1,49 @@
-import { Button } from "react-bootstrap";
-import "./Login.sass"
-import { useState } from "react"
+import "./Login.scss"
+import React, { useContext, useState } from "react"
 import LoginApi from "../service/LoginAPi";
+import { useNavigate } from "react-router";
+import { AuthContext } from '../context/AuthContext';
+import { Button, Form } from "react-bootstrap";
 
-function Login() {
+const Login: React.FC = () => {
+    const { isLogin, login, logout } = useContext(AuthContext)!;
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate()
 
     const handlerClickLoginButton = () => {
-        // const data = {
-        //     userName:userName,
-        //     password:password
-        // }
-        LoginApi.login(userName, password)
+        LoginApi.login(userName, password).then(response => {
+            const data = response.data
+            if (data) {
+                if (data.status) {
+                    login()
+                    navigate("/home")
+                }
+                else {
+                    // alert("登入错误")
+                }
+            }
+        })
     }
 
     return <>
-        <div className="login_container">
+        <div className="mh-100 vh-100 d-flex justify-content-center flex-column align-items-center">
+            <h1 className="Login_title mb-3">宿舍管理系统</h1>
             <div className="login_box">
-                <div className="login_item">
-                    <label>用户名:</label>
-                    <input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
-                </div>
-                <div className="login_item">
-                    <label>密码:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <div className="login_buttons">
-                    <Button>清除</Button>
-                    <Button onClick={() => {
-                        handlerClickLoginButton()
-                    }} >登入</Button>
-                </div>
+                <fieldset>
+                    <Form.Group className="mb-3">
+                        <Form.Label>用户名:</Form.Label>
+                        <Form.Control type="text" placeholder="请输入用户名" onChange={(e) => setUserName(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                        <Form.Label>密码:</Form.Label>
+                        <Form.Control type="password" placeholder="请输入密码" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    </Form.Group>
+                    <div className="d-grid">
+                        <Button className="mb-3" variant="primary" onClick={() => { handlerClickLoginButton() }}>登入</Button>
+                        <Button className="mb-3" variant="danger" onClick={() => { }}>注册</Button>
+                    </div>
+                </fieldset>
             </div>
         </div>
     </>

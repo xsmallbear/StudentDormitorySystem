@@ -1,7 +1,7 @@
 package com.smallbear.studs;
 
 import com.smallbear.studs.servlet.LoginApi;
-import com.smallbear.studs.filter.EncodingFilter;
+import com.smallbear.studs.filter.ServerFilter;
 import jakarta.servlet.DispatcherType;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Connector;
@@ -21,7 +21,7 @@ public class ServerMain {
 
         servletContext.addServlet(LoginApi.class, "/login");
 
-        servletContext.addFilter(EncodingFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
+        servletContext.addFilter(ServerFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
 
         server.setHandler(servletContext);
 

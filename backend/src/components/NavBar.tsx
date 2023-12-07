@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
-import "./NavBar.sass"
+import "./NavBar.scss"
 
 interface NavSubItem {
     href?: string

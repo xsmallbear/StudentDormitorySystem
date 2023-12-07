@@ -1,6 +1,8 @@
-import './Home.sass';
+import './Home.scss';
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/NavBar';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 
 const navItems = [
   {
@@ -55,11 +57,24 @@ const navItems = [
   },
 ]
 
-function Home() {
+const Home: React.FC = () => {
+  const { isLogin, login, logout } = useContext(AuthContext)!;
+  const navigate = useNavigate()
   return (
     <div className='app_container'>
       <Navbar title="学生宿舍管理系统" navItems={navItems} />
       <div className='context_box'>
+        {/*context top nav*/}
+        <div className="context_nav">
+          <div className='context_userName'>
+            用户名
+          </div>
+          <div className='contex_logout_button' onClick={() => {
+            logout();
+            navigate("/login")
+          }}>退出</div>
+        </div>
+        {/*  */}
         <div className='context'>
           <Outlet />
         </div>
