@@ -7,7 +7,8 @@ const fakeManager = (): Manager => {
         username: faker.internet.displayName(),
         passwordHash: faker.internet.password(),
         salt: faker.internet.password(),
-        createTime: new Date().toString()
+        createTime: new Date(),
+        updateTime: new Date()
     }
 }
 

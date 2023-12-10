@@ -1,0 +1,138 @@
+package com.smallbear.studs.dao;
+
+
+import com.smallbear.studs.model.Building;
+import com.smallbear.studs.util.DBUtil;
+import com.smallbear.studs.util.UUIDUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BuildingDao {
+    public List<Building> getAllBuildings() {
+        int defaultLimit = 1000;
+        int defaultOffSet = 0;
+        return this.getAllBuildings(defaultLimit, defaultOffSet);
+    }
+
+    public List<Building> getAllBuildings(int limit, int offset) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "SELECT * FROM `Building` LIMIT ? OFFSET ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, offset);
+            resultSet = preparedStatement.executeQuery();
+            List<Building> buildingsList = new ArrayList<>();
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String name = resultSet.getString("name");
+                Building dataBuildings = new Building(id, name);
+                buildingsList.add(dataBuildings);
+            }
+            return buildingsList;
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DBUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return null;
+    }
+
+    public Building getBuildingByName(String name) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "SELECT * FROM `Building` WHERE `name` = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String buildingName = resultSet.getString("name");
+                return new Building(id, buildingName);
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DBUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return null;
+    }
+
+    public Building getBuildingById(String id) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "SELECT * FROM `Building` WHERE `id` = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String buildingId = resultSet.getString("id");
+                String name = resultSet.getString("name");
+                return new Building(buildingId, name);
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DBUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return null;
+    }
+
+    public boolean addNewBuilding(String newName) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "INSERT INTO `Building` (`id`,`name`) VALUES (?,?)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, UUIDUtil.generateUUID());
+            preparedStatement.setString(2, newName);
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Inserting building failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+            return false;
+        } finally {
+            DBUtil.closeResource(preparedStatement, connection);
+        }
+        return true;
+    }
+
+    public boolean updateBuilding(String id, String newName) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "UPDATE `Building` SET `name` = ? WHERE `id` = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, newName);
+            preparedStatement.setString(2, id);
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating building failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+            return false;
+        } finally {
+            DBUtil.closeResource(preparedStatement, connection);
+        }
+        return true;
+    }
+}

@@ -1,6 +1,7 @@
 package com.smallbear.studs.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,13 @@ public class ServletUtil {
     /**
      * 读取request中 body中的内容
      */
-    public static String readRequestBody(HttpServletRequest request) throws IOException {
+    public static JsonNode readRequestBody(HttpServletRequest request) throws IOException {
+
+        String contentType = request.getHeader("Content-Type");
+        if (contentType == null || !contentType.contains("application/json")) {
+            throw new IllegalArgumentException("请求头不是JSON格式");
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -34,6 +41,11 @@ public class ServletUtil {
             stringBuilder.append(line);
         }
         reader.close();
-        return stringBuilder.toString();
+        JsonNode jsonNode = new ObjectMapper().readTree(stringBuilder.toString());
+        if (jsonNode == null || jsonNode.isNull() || !jsonNode.isObject()) {
+            //error
+            throw new IllegalArgumentException("请求参数错误");
+        }
+        return jsonNode;
     }
 }

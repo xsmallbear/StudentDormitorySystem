@@ -1,9 +1,11 @@
 package com.smallbear.studs;
 
 import com.smallbear.studs.filter.LoggingFilter;
+import com.smallbear.studs.servlet.AddBuildingApi;
 import com.smallbear.studs.servlet.GetBuildingsApi;
 import com.smallbear.studs.servlet.LoginApi;
 import com.smallbear.studs.filter.ServerFilter;
+import com.smallbear.studs.servlet.UpdateBuildingApi;
 import jakarta.servlet.DispatcherType;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
 import org.eclipse.jetty.server.Connector;
@@ -23,6 +25,8 @@ public class ServerMain {
 
         servletContext.addServlet(LoginApi.class, "/login");
         servletContext.addServlet(GetBuildingsApi.class, "/getBuildings");
+        servletContext.addServlet(AddBuildingApi.class, "/addBuilding");
+        servletContext.addServlet(UpdateBuildingApi.class, "/updateBuilding");
 
         servletContext.addFilter(ServerFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         servletContext.addFilter(LoggingFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
