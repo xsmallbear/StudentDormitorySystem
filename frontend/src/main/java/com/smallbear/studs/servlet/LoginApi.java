@@ -1,20 +1,19 @@
 package com.smallbear.studs.servlet;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smallbear.studs.dao.ManagerDao;
+import com.smallbear.studs.model.DataResponse;
 import com.smallbear.studs.model.Manager;
+import com.smallbear.studs.util.JwtUtil;
 import com.smallbear.studs.util.PwdSecureUtil;
 import com.smallbear.studs.util.ServletUtil;
+import com.smallbear.studs.util.ValidatorUtil;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginApi extends HttpServlet {
 
@@ -23,28 +22,61 @@ public class LoginApi extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String jsonString = ServletUtil.readRequestBody(req);
-        JsonObject jsonObject = new Gson().fromJson(jsonString, JsonElement.class).getAsJsonObject();
-        String userName = jsonObject.get("userName").getAsString();
-        String password = jsonObject.get("password").getAsString();
+        DataResponse dataResponse = new DataResponse();
 
-        Map<String, Object> secureResult = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode jsonNode;
+        try {
+            jsonNode = objectMapper.readTree(jsonString);
+        } catch (Exception e) {
+            dataResponse.setMessage("json解析错误");
+            ServletUtil.sendJsonDataToResponse(resp, dataResponse);
+            return;
+        }
+        if (jsonNode == null || jsonNode.isNull() || !jsonNode.isObject()) {
+            ServletUtil.sendJsonDataToResponse(resp, dataResponse);
+            return;
+        }
+
+        JsonNode nameNode = jsonNode.get("userName");
+        JsonNode passwordNode = jsonNode.get("password");
+
+        if (nameNode == null || ValidatorUtil.isBlank(nameNode.asText())) {
+            dataResponse.setMessage("用户名不能为空");
+            ServletUtil.sendJsonDataToResponse(resp, dataResponse);
+            return;
+        }
+
+        if (passwordNode == null || ValidatorUtil.isBlank(passwordNode.asText())) {
+            dataResponse.setMessage("密码不能为空");
+            ServletUtil.sendJsonDataToResponse(resp, dataResponse);
+            return;
+        }
+
+        String userName = nameNode.asText();
+        String password = passwordNode.asText();
 
         Manager manager = managersDao.getManagerByName(userName);
         if (manager != null) {
-            String salt = manager.getManagerSalt();
-            String pwdHash = manager.getManagerPasswordHash();
+            String salt = manager.getSalt();
+            String pwdHash = manager.getPasswordHash();
             boolean result = PwdSecureUtil.verifyPassword(password, pwdHash, salt);
-            if (result) secureResult.put("status", true);
-            else {
-                secureResult.put("status", false);
-                secureResult.put("message", "password Error");
+            System.out.println(salt + ":" + pwdHash);
+            System.out.println(password);
+            if (result) {
+                String token = JwtUtil.createToken(2000);
+                dataResponse.setCode(1);
+                dataResponse.setMessage("登入成功");
+                dataResponse.setData(String.format("{`token`:`%s`}", token));
+            } else {
+                dataResponse.setMessage("密码错误");
             }
-            ServletUtil.sendJsonDataToResponse(resp, secureResult);
+            ServletUtil.sendJsonDataToResponse(resp, dataResponse);
             return;
         }
-        secureResult.put("status", false);
-        secureResult.put("message", "error");
-        ServletUtil.sendJsonDataToResponse(resp, secureResult);
+        dataResponse.setMessage("用户名不存在");
+        ServletUtil.sendJsonDataToResponse(resp, dataResponse);
     }
 
 

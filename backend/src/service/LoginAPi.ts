@@ -1,10 +1,10 @@
-import apiAxios from "./apiAxios";
+import instance from "./apiAxios";
 
 export default class LoginApi {
-    axios = apiAxios 
+    axios = instance 
     constructor() { }
     static login(userName: string, password: string) {
-        return apiAxios.post("/login", {userName:userName, password:password})
+        return instance.post("/login", {userName:userName, password:password})
     }
 
 }

@@ -19,7 +19,7 @@ function ManagersSetting() {
     return (<>
         <h1>管理员系统设定</h1>
         {
-            fakeDatas.map((item, index)=><p>{index} {item.managerPasswordHash} {item.managerSalt} {item.managerUsername}</p>)
+            fakeDatas.map((item, index)=><p>{index} {item.passwordHash} {item.salt} {item.username}</p>)
         }
     </>)
 }

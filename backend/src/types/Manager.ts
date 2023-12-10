@@ -1,7 +1,8 @@
 export default interface Manager {
-    managerId: string
-    managerUsername: string;
-    managerPasswordHash: string;
-    managerSalt: string;
-    createTime: string;
+    id: string
+    username: string
+    passwordHash: string
+    salt: string
+    createTime: Date
+    updateTime: Date
 }

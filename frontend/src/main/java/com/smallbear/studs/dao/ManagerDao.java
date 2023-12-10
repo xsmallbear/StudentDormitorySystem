@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ManagerDao {
@@ -22,12 +23,13 @@ public class ManagerDao {
             resultSet = preparedStatement.executeQuery();
             List<Manager> managersList = new ArrayList<>();
             while (resultSet.next()) {
-                int managerId = resultSet.getInt("manager_id");
-                String managerUsername = resultSet.getString("manager_username");
+                String id = resultSet.getString("manager_id");
+                String username = resultSet.getString("manager_username");
                 String managerPasswordHash = resultSet.getString("manager_password_hash");
                 String managerSalt = resultSet.getString("manager_salt");
-                String createTime = resultSet.getString("create_time");
-                managersList.add(new Manager(managerId + "", managerUsername, managerPasswordHash, managerSalt, createTime));
+                Date createTime = resultSet.getDate("create_time");
+                Date updateTime = resultSet.getDate("update_time");
+                managersList.add(new Manager(id, username, managerPasswordHash, managerSalt, createTime, updateTime));
             }
             return managersList;
         } catch (SQLException e) {
@@ -50,12 +52,13 @@ public class ManagerDao {
             preparedStatement.setString(1, name);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int managerId = resultSet.getInt("manager_id");
-                String managerUsername = resultSet.getString("manager_username");
+                String id = resultSet.getString("manager_id");
+                String username = resultSet.getString("manager_username");
                 String managerPasswordHash = resultSet.getString("manager_password_hash");
                 String managerSalt = resultSet.getString("manager_salt");
-                String createTime = resultSet.getString("create_time");
-                return new Manager(managerId + "", managerUsername, managerPasswordHash, managerSalt, createTime);
+                Date createTime = resultSet.getDate("create_time");
+                Date updateTime = resultSet.getDate("update_time");
+                return (new Manager(id, username, managerPasswordHash, managerSalt, createTime, updateTime));
             }
         } catch (SQLException e) {
             e.fillInStackTrace();

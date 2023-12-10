@@ -1,5 +1,7 @@
 package com.smallbear.studs;
 
+import com.smallbear.studs.filter.LoggingFilter;
+import com.smallbear.studs.servlet.GetBuildingsApi;
 import com.smallbear.studs.servlet.LoginApi;
 import com.smallbear.studs.filter.ServerFilter;
 import jakarta.servlet.DispatcherType;
@@ -20,8 +22,10 @@ public class ServerMain {
         servletContext.setContextPath("/api");
 
         servletContext.addServlet(LoginApi.class, "/login");
+        servletContext.addServlet(GetBuildingsApi.class, "/getBuildings");
 
-        servletContext.addFilter(ServerFilter.class,"/*", EnumSet.of(DispatcherType.REQUEST));
+        servletContext.addFilter(ServerFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
+        servletContext.addFilter(LoggingFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 
         server.setHandler(servletContext);
 

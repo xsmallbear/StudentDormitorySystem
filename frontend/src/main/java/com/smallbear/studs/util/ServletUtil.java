@@ -1,6 +1,7 @@
 package com.smallbear.studs.util;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,11 +14,18 @@ public class ServletUtil {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
         PrintWriter out = response.getWriter();
-        out.print(new Gson().toJson(data));
+        out.print(mapper.writeValueAsString(data));
         out.flush();
     }
 
+
+    /**
+     * 读取request中 body中的内容
+     */
     public static String readRequestBody(HttpServletRequest request) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader reader = request.getReader();

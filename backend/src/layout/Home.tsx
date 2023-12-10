@@ -62,19 +62,8 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
   return (
     <div className='app_container'>
-      <Navbar title="学生宿舍管理系统" navItems={navItems} />
+      <Navbar title="学生宿舍管理系统" navItems={navItems} className='app_nav' />
       <div className='context_box'>
-        {/*context top nav*/}
-        <div className="context_nav">
-          <div className='context_userName'>
-            用户名
-          </div>
-          <div className='contex_logout_button' onClick={() => {
-            logout();
-            navigate("/login")
-          }}>退出</div>
-        </div>
-        {/*  */}
         <div className='context'>
           <Outlet />
         </div>

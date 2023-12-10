@@ -7,16 +7,17 @@ import lombok.Setter;
 
 import java.util.Date;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Manager {
+public class Dormitories {
     private String id;
-    private String username;
-    private String passwordHash;
-    private String salt;
+    private String type;
+    private String buildingId;
+    private String rootNumber;
+    private int floor;
+    private String status;
     private Date createTime;
     private Date updateTime;
 }

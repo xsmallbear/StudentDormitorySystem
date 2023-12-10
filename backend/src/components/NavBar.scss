@@ -1,5 +1,3 @@
-//宽度
-$navBarWidth: 250px;
 //基础色
 $navBarBasicColor: #1971c2;
 //展开色
@@ -12,69 +10,63 @@ $navBarHoverBgColor: #339af0;
 $navBarFontColor: #ffffff;
 
 //标题的文字大小
-$navItenTitleFontSize: 21px;
+$navItenTitleFontSize: 20px;
 //选项的文字大小
 $navItemFontSize: 16px;
 //子选项的文字大小
 $navSubItemFontSize: 12px;
 
+@mixin navbar_item_style($cursor, $height, $font-size, $hoverBgColor: null) {
+    cursor: $cursor;
+    width: 100%;
+    height: $height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $font-size;
+
+    @if $hoverBgColor {
+        &:hover {
+            background-color: $hoverBgColor;
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+    }
+}
+
+
 .navbar_container {
     height: 100%;
-    width: $navBarWidth;
+    width: 100%;
     background-color: $navBarBasicColor;
     color: $navBarFontColor;
     user-select: none;
-    overflow-y: scroll;
-    overflow-y: overlay;
+    overflow: auto;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 
-    //定义滚动条轨道
     &::-webkit-scrollbar {
         width: 8px;
     }
 
-    // 定义滚动条的滑块
     &::-webkit-scrollbar-thumb {
         background-color: #339af0;
         border-radius: 6px;
     }
 
     .navbar_item {
-        cursor: pointer;
+        @include navbar_item_style(pointer, 50px, $navItemFontSize);
+    }
 
-        .navbar_item_title {
-            width: 100%;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: $navItemFontSize;
-        }
+    .navbar_subitem {
+        @include navbar_item_style(pointer, 45px, $navSubItemFontSize, $navBarHoverBgColor);
+    }
 
-        .navbar_subitem_container {
-            width: 100%;
-            height: 100%;
-            background-color: $navBarOpenedColor;
-            display: none;
+    .navbar_subitem_container {
+        background-color: $navBarOpenedColor;
+        display: none;
 
-            &.open {
-                display: block;
-            }
-
-            .navbar_subitem {
-
-                width: 100%;
-                height: 40px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: $navSubItemFontSize;
-
-                &:hover {
-                    background-color: $navBarHoverBgColor;
-                    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-                }
-            }
+        &.open {
+            display: block;
         }
     }
 
@@ -82,7 +74,7 @@ $navSubItemFontSize: 12px;
         text-align: center;
         font-size: $navItenTitleFontSize;
         background-color: $navBarTitleBgColor;
-        line-height: 60px;
-        height: 60px;
+        line-height: 50px;
+        height: 50px;
     }
 }

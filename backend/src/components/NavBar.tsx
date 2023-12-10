@@ -13,12 +13,13 @@ interface NavItem {
 }
 
 interface props {
+    className?: string
     title?: string
     navItems?: Array<NavItem>
 }
 
-const Navbar: React.FC<props> = ({ title, navItems }) => {
-    const [itemStates, setItemStates] = useState<{ [key: number]: boolean }>({})
+const Navbar: React.FC<props> = ({ className, title, navItems }) => {
+    const [itemStates, setItemStates] = useState<{ [index: number]: boolean }>({})
     const navigate = useNavigate()
 
     const hanldeClickSubItem = (navItem: NavSubItem, index: number) => {
@@ -28,46 +29,44 @@ const Navbar: React.FC<props> = ({ title, navItems }) => {
     }
 
     const handleClicktitleItem = (index: number) => {
-        setItemStates((prevState) => {
-            const newState = { ...prevState };
-            // Object.keys(newState).forEach((key) => {
-            //     newState[parseInt(key)] = false;
-            // });
-            newState[index] = !prevState[index];
-            return newState;
+        setItemStates((itemStates) => {
+            const newStates = { ...itemStates };
+            newStates[index] = !itemStates[index];
+            return newStates;
         });
     }
 
-    return <div className="navbar_container">
-        <div className="navbar_title">
-            {title}
-        </div>
-        {
-            navItems?.map((navItem, index) => (
-                <div key={index} className="navbar_item">
-                    <div className="navbar_item_title"
-                        onClick={() => {
+    return (
+        <div className={`navbar_container ${className}`} >
+            <div className="navbar_title">
+                {title}
+            </div>
+            {
+                navItems?.map((navItem, index) => (
+                    <>
+                        <div key={index} className="navbar_item" onClick={() => {
                             handleClicktitleItem(index)
-                        }}
-                    >
-                        {navItem.text}
-                    </div>
-                    <div
-                        className={`navbar_subitem_container ${itemStates[index] ? 'open' : ''}`}
-                    >
-                        {
-                            navItem.subItems?.map((subItem, subIndex) =>
-                                <div
-                                    onClick={() => { hanldeClickSubItem(subItem, index) }}
-                                    key={subIndex} className="navbar_subitem">
-                                    {subItem.text}
-                                </div>)
-                        }
-                    </div>
-                </div>
-            ))
-        }
-    </div >
+                        }}>
+                            {navItem.text}
+                        </div>
+                        <div className={`navbar_subitem_container ${itemStates[index] ? 'open' : ''}`}>
+                            {
+                                navItem.subItems?.map((subItem, subIndex) =>
+                                    <div
+                                        onClick={() => { hanldeClickSubItem(subItem, index) }}
+                                        key={subIndex} className={`navbar_subitem`}>
+                                        {subItem.text}
+                                    </div>)
+                            }
+                        </div>
+                    </>
+                ))
+            }
+            <div className="navbar_item" onClick={() => {
+                navigate("/")
+            }}>退出登入</div>
+        </div >
+    )
 }
 
 export default Navbar

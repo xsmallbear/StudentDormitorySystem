@@ -4,9 +4,10 @@ import LoginApi from "../service/LoginAPi";
 import { useNavigate } from "react-router";
 import { AuthContext } from '../context/AuthContext';
 import { Button, Form } from "react-bootstrap";
+import { error } from "console";
 
 const Login: React.FC = () => {
-    const { isLogin, login, logout } = useContext(AuthContext)!;
+    const { login } = useContext(AuthContext)!;
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
@@ -20,7 +21,6 @@ const Login: React.FC = () => {
                     navigate("/home")
                 }
                 else {
-                    // alert("登入错误")
                 }
             }
         })
