@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuildingDao {
-    public List<Building> getAllBuildings() {
+    public List<Building> gets() {
         int defaultLimit = 1000;
         int defaultOffSet = 0;
-        return this.getAllBuildings(defaultLimit, defaultOffSet);
+        return this.gets(defaultLimit, defaultOffSet);
     }
 
-    public List<Building> getAllBuildings(int limit, int offset) {
+    public List<Building> gets(int limit, int offset) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -46,7 +46,7 @@ public class BuildingDao {
         return null;
     }
 
-    public Building getBuildingByName(String name) {
+    public Building getByBuildingName(String name) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -92,7 +92,7 @@ public class BuildingDao {
         return null;
     }
 
-    public boolean addNewBuilding(String newName) {
+    public boolean addBuilding(String newName) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {

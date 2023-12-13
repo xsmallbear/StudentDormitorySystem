@@ -1,4 +1,4 @@
-export default interface Dormitories {
+export default interface Dormitory {
     id: string
     type: 'Male' | 'Female' | 'Mixed'
     buildingId: string

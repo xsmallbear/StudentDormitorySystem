@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class AddBuildingApi extends HttpServlet {
+public class AddBuildingServlet extends HttpServlet {
 
     BuildingDao buildingDao = new BuildingDao();
 
@@ -21,7 +21,7 @@ public class AddBuildingApi extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DataResponse dataResponse = new DataResponse();
         try {
-            JsonNode jsonNode = ServletUtil.readRequestBody(req);
+            JsonNode jsonNode = ServletUtil.readRequestBody(req, false);
 
             JsonNode nameNode = jsonNode.get("newBuildingName");
             if (nameNode == null || ValidatorUtil.isBlank(nameNode.asText())) {
@@ -32,7 +32,7 @@ public class AddBuildingApi extends HttpServlet {
             }
 
             String newBuildingName = nameNode.asText();
-            Building existingBuilding = buildingDao.getBuildingByName(newBuildingName);
+            Building existingBuilding = buildingDao.getByBuildingName(newBuildingName);
             if (existingBuilding != null) {
                 dataResponse.setCode(HttpServletResponse.SC_BAD_REQUEST);
                 dataResponse.setMessage("楼栋名已经存在");
@@ -43,7 +43,7 @@ public class AddBuildingApi extends HttpServlet {
             // Add the new building
             Building newBuilding = new Building();
             newBuilding.setName(newBuildingName);
-            boolean success = buildingDao.addNewBuilding(newBuildingName);
+            boolean success = buildingDao.addBuilding(newBuildingName);
             if (success) {
                 dataResponse.setCode(HttpServletResponse.SC_OK);
                 dataResponse.setMessage("楼栋添加成功");

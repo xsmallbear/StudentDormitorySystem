@@ -1,4 +1,4 @@
-import Dormitories from "../types/Dormitories";
+import Dormitories from "../types/Dormitory";
 import { faker } from '@faker-js/faker';
 
 const fakeDormitories = (): Dormitories => {
@@ -15,7 +15,7 @@ const fakeDormitories = (): Dormitories => {
             `9d4ba2f777964c7ce20145c2ae54cc65`,
             `b69711489388b2092ed8d68cbb20b9d7`
         ]),
-        rootNumber: faker.number.bigInt() + "",
+        rootNumber: `${faker.number.int({ max: 10, min: 1 })}01`,
         floor: faker.helpers.arrayElement([1, 2, 3, 4, 5]),
         status: faker.helpers.arrayElement(['Vacant', 'Occupied', 'Under maintenance']),
         createTime: new Date(),

@@ -1,10 +1,8 @@
-import instance from "./apiAxios";
+import axiosInstance from "./axiosInstance";
 
-export default class LoginApi {
-    axios = instance 
-    constructor() { }
+export default class LoginAPI {
     static login(userName: string, password: string) {
-        return instance.post("/login", {userName:userName, password:password})
+        return axiosInstance.post("/login", { userName: userName, password: password })
     }
 
 }

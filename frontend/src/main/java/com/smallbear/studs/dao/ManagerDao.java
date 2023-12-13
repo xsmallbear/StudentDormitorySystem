@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 public class ManagerDao {
+
+    //TODO: add limit and offset
     public List<Manager> getAllManagers() {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

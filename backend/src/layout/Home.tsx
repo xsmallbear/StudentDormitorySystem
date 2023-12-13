@@ -8,20 +8,20 @@ const navItems = [
   {
     text: "系统配置",
     subItems: [
-      { text: "系统管理员设置", href: "managersSetting" }
+      { text: "系统管理员设置", href: "managers-setting" }
     ]
   },
   {
     text: "宿舍管理",
     subItems: [
-      { text: "宿舍信息一览", href: "dormitoriesList" },
-      { text: "宿舍分配", href: "dormitoriesDis" }
+      { text: "宿舍信息一览", href: "dormitory-list" },
+      { text: "宿舍分配", href: "dormitory-dis" }
     ]
   },
   {
     text: "学生管理",
     subItems: [
-      { text: "学生个人信息", href: "studnetList" },
+      { text: "学生个人信息", href: "student-list" },
       { text: "院系信息管理", href: "departments" }
     ]
   },

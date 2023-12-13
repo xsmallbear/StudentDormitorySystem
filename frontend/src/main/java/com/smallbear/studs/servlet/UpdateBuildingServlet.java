@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class UpdateBuildingApi extends HttpServlet {
+public class UpdateBuildingServlet extends HttpServlet {
 
     BuildingDao buildingDao = new BuildingDao();
 
@@ -21,7 +21,7 @@ public class UpdateBuildingApi extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DataResponse dataResponse = new DataResponse();
         try {
-            JsonNode jsonNode = ServletUtil.readRequestBody(req);
+            JsonNode jsonNode = ServletUtil.readRequestBody(req, true);
 
             JsonNode idNode = jsonNode.get("id");
             if (idNode == null || ValidatorUtil.isBlank(idNode.asText())) {
@@ -50,7 +50,7 @@ public class UpdateBuildingApi extends HttpServlet {
             }
 
             String name = nameNode.asText();
-            Building existingNameBuilding = buildingDao.getBuildingByName(name);
+            Building existingNameBuilding = buildingDao.getByBuildingName(name);
             if (existingNameBuilding != null) {
                 dataResponse.setCode(HttpServletResponse.SC_BAD_REQUEST);
                 dataResponse.setMessage("楼栋名已经存在");

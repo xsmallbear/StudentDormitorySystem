@@ -1,6 +1,6 @@
 import "./Login.scss"
 import React, { useContext, useState } from "react"
-import LoginApi from "../service/LoginAPi";
+import LoginAPI from "../service/LoginAPI";
 import { useNavigate } from "react-router";
 import { AuthContext } from '../context/AuthContext';
 import { Button, Form } from "react-bootstrap";
@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     const navigate = useNavigate()
 
     const handlerClickLoginButton = () => {
-        LoginApi.login(userName, password).then(response => {
+        LoginAPI.login(userName, password).then(response => {
             const data = response.data
             if (data) {
                 if (data.status) {

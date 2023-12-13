@@ -11,13 +11,13 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Dormitories {
+public class Dormitory {
     private String id;
     private String type;
     private String buildingId;
     private String rootNumber;
-    private int floor;
+    private String floor;
     private String status;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
 }

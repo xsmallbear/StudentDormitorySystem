@@ -1,7 +1,6 @@
 package com.smallbear.studs.servlet;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smallbear.studs.dao.ManagerDao;
 import com.smallbear.studs.model.DataResponse;
 import com.smallbear.studs.model.Manager;
@@ -15,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class LoginApi extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     ManagerDao managersDao = new ManagerDao();
 
@@ -23,7 +22,7 @@ public class LoginApi extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DataResponse dataResponse = new DataResponse();
         try {
-            JsonNode jsonNode = ServletUtil.readRequestBody(req);
+            JsonNode jsonNode = ServletUtil.readRequestBody(req, true);
 
             JsonNode nameNode = jsonNode.get("userName");
             if (nameNode == null || ValidatorUtil.isBlank(nameNode.asText())) {

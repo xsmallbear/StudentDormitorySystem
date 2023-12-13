@@ -44,7 +44,7 @@ const Navbar: React.FC<props> = ({ className, title, navItems }) => {
             {
                 navItems?.map((navItem, index) => (
                     <>
-                        <div key={index} className="navbar_item" onClick={() => {
+                        <div className="navbar_item" onClick={() => {
                             handleClicktitleItem(index)
                         }}>
                             {navItem.text}
@@ -54,7 +54,7 @@ const Navbar: React.FC<props> = ({ className, title, navItems }) => {
                                 navItem.subItems?.map((subItem, subIndex) =>
                                     <div
                                         onClick={() => { hanldeClickSubItem(subItem, index) }}
-                                        key={subIndex} className={`navbar_subitem`}>
+                                        className={`navbar_subitem`}>
                                         {subItem.text}
                                     </div>)
                             }

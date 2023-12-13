@@ -27,11 +27,12 @@ public class ServletUtil {
     /**
      * 读取request中 body中的内容
      */
-    public static JsonNode readRequestBody(HttpServletRequest request) throws IOException {
-
-        String contentType = request.getHeader("Content-Type");
-        if (contentType == null || !contentType.contains("application/json")) {
-            throw new IllegalArgumentException("请求头不是JSON格式");
+    public static JsonNode readRequestBody(HttpServletRequest request, boolean check) throws IOException {
+        if (check) {
+            String contentType = request.getHeader("Content-Type");
+            if (contentType == null || !contentType.contains("application/json")) {
+                throw new IllegalArgumentException("请求头不是JSON格式");
+            }
         }
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -42,9 +43,11 @@ public class ServletUtil {
         }
         reader.close();
         JsonNode jsonNode = new ObjectMapper().readTree(stringBuilder.toString());
-        if (jsonNode == null || jsonNode.isNull() || !jsonNode.isObject()) {
-            //error
-            throw new IllegalArgumentException("请求参数错误");
+        if (check) {
+            if (jsonNode == null || jsonNode.isNull() || !jsonNode.isObject()) {
+                //error
+                throw new IllegalArgumentException("请求参数错误");
+            }
         }
         return jsonNode;
     }

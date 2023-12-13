@@ -8,7 +8,7 @@ import {
 import Home from "./layout/Home";
 import Login from "./layout/Login";
 
-import DormitoriesList from "./pages/DormitoriesList";
+import DormitoryList from "./pages/DormitoryList";
 import StudentList from "./pages/StudentList";
 import Assets from "./pages/Assets";
 import Repairs from "./pages/Repairs";
@@ -26,15 +26,11 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} >
-            {/*  */}
-            <Route path="managersSetting" element={<ManagersSetting />} />
-            {/*  */}
-            <Route path="dormitoriesList" element={<DormitoriesList />} />
-            <Route path="dormitoriesDis" element={<DormitoriesDis />} />
-            {/*  */}
-            <Route path="studnetList" element={<StudentList />} />
+            <Route path="managers-setting" element={<ManagersSetting />} />
+            <Route path="dormitory-list" element={<DormitoryList />} />
+            <Route path="dormitory-dis" element={<DormitoriesDis />} />
+            <Route path="student-list" element={<StudentList />} />
             <Route path="departments" element={<Departments />} />
-            {/*  */}
             <Route path="assets" element={<Assets />} />
             <Route path="repairs" element={<Repairs />} />
             <Route path="electricity" element={<Electricity />} />
