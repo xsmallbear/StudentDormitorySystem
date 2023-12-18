@@ -52,7 +52,7 @@ const Navbar: React.FC<props> = ({ className, title, navItems }) => {
                         <div className={`navbar_subitem_container ${itemStates[index] ? 'open' : ''}`}>
                             {
                                 navItem.subItems?.map((subItem, subIndex) =>
-                                    <div
+                                    <div 
                                         onClick={() => { hanldeClickSubItem(subItem, index) }}
                                         className={`navbar_subitem`}>
                                         {subItem.text}

@@ -7,12 +7,12 @@
   "author": "SmallBear <bigstarcat520@gmail.com>",
   "license": "LGPL-3.0-only",
   "scripts": {
-    "backend:start": "yarn --cwd ./backend run start",
-    "backend:build": "yarn --cwd ./backend run build",
-    "backend:test": "yarn --cwd ./backend run test",
-    "frontend:run": "node scripts/callmaven.js exec:java",
-    "frontend:jar": "node scripts/callmaven.js jar:jar",
-    "frontend:clean": "node scripts/callmaven.js clean"
+    "frontend:start": "yarn --cwd ./frontend run start",
+    "frontend:build": "yarn --cwd ./frontend run build",
+    "frontend:test": "yarn --cwd ./frontend run test",
+    "backend:run": "node scripts/callmaven.js exec:java",
+    "backend:jar": "node scripts/callmaven.js jar:jar",
+    "backend:clean": "node scripts/callmaven.js clean"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1"

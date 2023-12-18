@@ -18,6 +18,7 @@ import ManagersSetting from "./pages/ManagersSetting";
 import DormitoriesDis from "./pages/DormitoriesDis";
 import Departments from "./pages/Departments";
 import { AuthProvider } from "./context/AuthContext";
+import BuldingManager from "./pages/BuldingManager";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="managers-setting" element={<ManagersSetting />} />
             <Route path="dormitory-list" element={<DormitoryList />} />
             <Route path="dormitory-dis" element={<DormitoriesDis />} />
+            <Route path="bulding-list" element={<BuldingManager />} />
             <Route path="student-list" element={<StudentList />} />
             <Route path="departments" element={<Departments />} />
             <Route path="assets" element={<Assets />} />

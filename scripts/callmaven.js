@@ -2,7 +2,7 @@ const { spawn } = require('child_process')
 const path = require('path')
 const os = require('os')
 
-const frontendLocation = path.join(__dirname, "../", "frontend")
+const frontendLocation = path.join(__dirname, "../", "backend")
 let mvnwCmd = frontendLocation
 
 if (os.platform() === 'win32') {
