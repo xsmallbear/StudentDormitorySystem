@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetBuildingsServlet extends HttpServlet {
@@ -17,8 +18,19 @@ public class GetBuildingsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String limit = req.getParameter("limit");
+        String offset = req.getParameter("offset");
         DataResponse dataResponse = new DataResponse();
-        List<Building> buildingsList = buildingsDao.gets();
+        List<Building> buildingsList;
+        if (limit != null && offset != null && !limit.isEmpty() && !offset.isEmpty()) {
+            System.out.println("分页");
+            buildingsList = buildingsDao.gets(Integer.parseInt(limit), Integer.parseInt(offset));
+            System.out.println(buildingsList.size());
+        } else {
+            System.out.println("不分页");
+            buildingsList = buildingsDao.gets();
+            System.out.println(buildingsList.size());
+        }
         dataResponse.setCode(HttpServletResponse.SC_OK);
         dataResponse.setData(buildingsList);
         ServletUtil.sendJsonDataToResponse(resp, dataResponse);

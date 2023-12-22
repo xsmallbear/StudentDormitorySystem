@@ -25,7 +25,7 @@ public class BuildingDao {
         ResultSet resultSet = null;
         try {
             connection = DBUtil.getConnection();
-            String sql = "SELECT * FROM `Building` LIMIT ? OFFSET ?";
+            String sql = "SELECT * FROM `Building` ORDER BY name ASC LIMIT ? OFFSET ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, limit);
             preparedStatement.setInt(2, offset);

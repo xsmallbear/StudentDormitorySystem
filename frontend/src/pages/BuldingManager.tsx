@@ -5,6 +5,7 @@ import { Button, Col, Container, Form, InputGroup, Modal, Pagination, Row, Table
 import Building from "../types/Building"
 import { useNavigate } from "react-router"
 import Notification from "../components/Notification"
+import { inflate } from "zlib"
 
 
 const AddBuildigModal: React.FC<{ callback: Function }> = ({ callback }) => {
@@ -29,13 +30,13 @@ const AddBuildigModal: React.FC<{ callback: Function }> = ({ callback }) => {
             Notification("名称不能为空")
             return
         }
-        const dRes = (await BuildingAPI.add(newBuildingName) as DataResponse).data
-        if (dRes.code === 200) {
+        const data = (await BuildingAPI.add(newBuildingName) as DataResponse)
+        if (data.code === 200) {
             handleClose()
             Notification("添加成功")
             callback()
         } else {
-            Notification(dRes.message)
+            Notification(data.message as string)
             input.style.border = "1px solid red"
             input.style.outline = "1px solid red"
         }
@@ -120,13 +121,13 @@ const UpdateBuildingModal: React.FC<{ id: string, name: string, callback: Functi
             Notification("名称不能为空")
             return
         }
-        const dRes = (await BuildingAPI.update(id, buildingNewName) as DataResponse).data
-        if (dRes.code === 200) {
+        const data = (await BuildingAPI.update(id, buildingNewName) as DataResponse)
+        if (data.code === 200) {
             handleClose()
             Notification("修改成功")
             callback()
         } else {
-            Notification(dRes.message)
+            Notification(data.message as string)
             input.style.border = "1px solid red"
             input.style.outline = "1px solid red"
         }
@@ -168,7 +169,7 @@ const BuldingManager: React.FC = () => {
     const [buildingList, setBuildingList] = useState<Building[]>([])
     //楼栋栋总数量
     const [buildingCount, setBuildingCount] = useState<number>(0)
-    const [currentPage, setcurrentPage] = useState<number>(0)
+    const [currentPage, setcurrentPage] = useState<number>(1)
     const [currentPageSize, setCurrentPageSize] = useState<number>(20)
     const [refresh, setrefresh] = useState(false)
     const navigate = useNavigate()
@@ -178,7 +179,7 @@ const BuldingManager: React.FC = () => {
     //获取楼栋的数量
     useEffect(() => {
         const getBuildingCount = async () => {
-            const data: DataResponse = (await BuildingAPI.getCount()).data
+            const data: DataResponse = await BuildingAPI.getCount()
             if (data.code === 200) {
                 setBuildingCount(data.data)
             }
@@ -189,8 +190,10 @@ const BuldingManager: React.FC = () => {
     //回调刷新
     useEffect(() => {
         const fetchData = async () => {
-            const data: DataResponse = (await BuildingAPI.gets()).data
+            const data: DataResponse = (await BuildingAPI.getPage(currentPageSize, (currentPage - 1) * currentPageSize))
+            console.log(data)
             if (data.code === 200) {
+                console.log(data)
                 setBuildingList([...data.data])
             }
         }
@@ -198,6 +201,9 @@ const BuldingManager: React.FC = () => {
     }, [refresh,
         currentPageSize,
         currentPage])
+
+
+    const renderPage = () => { }
 
     return (
         <>
@@ -225,7 +231,7 @@ const BuldingManager: React.FC = () => {
                                     return <>
                                         <tr key={index}>
                                             <td className="text-center" style={{ verticalAlign: "middle", width: "80px" }}>
-                                                {index}
+                                                {index + 1}
                                             </td>
                                             <td className="text-center" style={{ verticalAlign: "middle" }}>
                                                 {value.name}
@@ -244,11 +250,14 @@ const BuldingManager: React.FC = () => {
                 <Row>
                     <Col sm="auto" className="d-flex justify-content-center align-items-center">
                         <Pagination >
-                            {/* <Pagination.Prev />
-                            <Pagination.Item>{1}</Pagination.Item>
-                            <Pagination.Item>{2}</Pagination.Item>
-                            <Pagination.Item>{3}</Pagination.Item>
-                            <Pagination.Next /> */}
+                            {<Pagination.Prev disabled={currentPage >= 1} onClick={() => setcurrentPage(currentPage - 1)} />}
+                            {
+                                Array.from({ length: Math.ceil(buildingCount / currentPageSize) }, (_, index) => {
+                                    const pageNmber = index + 1
+                                    return (<Pagination.Item active={currentPage === pageNmber} onClick={() => { setcurrentPage(pageNmber) }}>{pageNmber}</Pagination.Item>)
+                                })
+                            }
+                            {<Pagination.Next disabled={currentPage >= buildingCount} onClick={() => setcurrentPage(currentPage + 1)} />}
                         </Pagination>
                     </Col>
                     <Col sm="auto" >

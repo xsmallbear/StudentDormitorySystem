@@ -1,13 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Dormitory from "../types/Dormitory"
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Dropdown, DropdownButton, Row } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import Building from "../types/Building";
 import BuildingAPI from "../service/BuildingAPI";
 import DormitoryAPI from "../service/DormitoryAPI";
-import DataResponse from "../types/DataResponse";
 import Arrayutil from "../utils/Arrayutil";
-import BuldingManagerModa from "../components/BuldingManagerModa"
 import BuildingInfoModa from "../components/BuildingInfoModa"
 import { useNavigate } from "react-router";
 
@@ -20,10 +18,11 @@ function DormitoryList() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const dataRes: DataResponse = (await BuildingAPI.gets()).data
-            if (dataRes.code === 200) {
-                setbuildingList([...dataRes.data as Building[]])
-                const staringBuilding: Building = dataRes.data[0];
+            const data = await BuildingAPI.gets()
+            if (data.code === 200) {
+                console.log(data)
+                setbuildingList([...data.data as Building[]])
+                const staringBuilding: Building = data.data[0];
 
                 setBuildingSelect(staringBuilding)
                 updateDormitoryList(staringBuilding.id)
@@ -42,12 +41,16 @@ function DormitoryList() {
      * @param buildingId 
      */
     const updateDormitoryList = async (buildingId: string) => {
-        const dRes: DataResponse = (await DormitoryAPI.getsByBuildingId(buildingId as string)).data
-        if (dRes.code === 200) {
+        const data = (await DormitoryAPI.getsByBuildingId(buildingId as string))
+        if (data.code === 200) {
             const SPLIICE_INDEX = 6
-            const resultData: Array<Array<Dormitory>> = Arrayutil.spliceArrayToArrays<Dormitory>(dRes.data, SPLIICE_INDEX);
+            const resultData: Array<Array<Dormitory>> = Arrayutil.spliceArrayToArrays<Dormitory>(data.data, SPLIICE_INDEX);
             setDormitoriesList([...resultData])
         }
+    }
+
+    const renderDormitoryList = (datas:Array<Dormitory>) => {
+        
     }
 
     return (<>
@@ -104,7 +107,10 @@ function DormitoryList() {
                                                 </Card.Text>
                                                 <div className="d-flex justify-content-start">
                                                     <Button size="sm" variant="outline-primary" >人员信息明细</Button>
-                                                    <Button size="sm" className="ms-2" variant="outline-danger" >管理</Button>
+                                                    <DropdownButton title="管理" size="sm" className="ms-2" variant="outline-danger" >
+                                                        <Dropdown.Item >修改信息</Dropdown.Item>
+                                                        <Dropdown.Item >删除宿舍</Dropdown.Item>
+                                                    </DropdownButton>
                                                 </div>
                                             </Card.Body>
                                         </Card>
