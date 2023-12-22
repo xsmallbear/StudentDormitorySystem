@@ -22,6 +22,7 @@ public class ServerMain {
 
         servletContext.addServlet(LoginServlet.class, "/login");
         servletContext.addServlet(GetBuildingsServlet.class, "/getBuildings");
+        servletContext.addServlet(GetBuildingCountServlet.class, "/getBuildingCount");
         servletContext.addServlet(AddBuildingServlet.class, "/addBuilding");
         servletContext.addServlet(UpdateBuildingServlet.class, "/updateBuilding");
         servletContext.addServlet(GetDormitoryServlet.class, "/getDormitory");

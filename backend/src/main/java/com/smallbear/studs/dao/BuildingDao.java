@@ -46,6 +46,26 @@ public class BuildingDao {
         return null;
     }
 
+    public Integer getCount() {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "SELECT COUNT(1) as `count` FROM `Building`";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        } finally {
+            DBUtil.closeResource(resultSet, preparedStatement, connection);
+        }
+        return null;
+    }
+
     public Building getByBuildingName(String name) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -40,8 +40,8 @@ const BuldingManagerModa: React.FC<{ modalData: Array<Building> }> = ({ modalDat
     }
 
     const updateName = async () => {
-        const needUpdateNameBuildig = modalData[editRows]
-        if (needUpdateNameBuildig.name === editValue) {
+        const needUpdateNameBuilding = modalData[editRows]
+        if (needUpdateNameBuilding.name === editValue) {
             setEditRows(-1)
             setEditValue("")
             return
@@ -50,7 +50,7 @@ const BuldingManagerModa: React.FC<{ modalData: Array<Building> }> = ({ modalDat
         if (editValue.length <= 0 || editValue.length > 32) {
             inputRef.current!.style.outline = "solid red"
         } else {
-            const bRes: DataResponse = (await BuildingAPI.update(needUpdateNameBuildig.id, editValue)).data
+            const bRes: DataResponse = (await BuildingAPI.update(needUpdateNameBuilding.id, editValue)).data
             if (bRes.code == 200) {
                 modalData[editRows].name = editValue
                 setEditRows(-1)

@@ -17,7 +17,7 @@ $navItemFontSize: 16px;
 $navSubItemFontSize: 12px;
 
 @mixin navbar_item_style($cursor, $height, $font-size, $hoverBgColor: null) {
-    cursor: $cursor;
+    cursor: $cursor; 
     width: 100%;
     height: $height;
     display: flex;
