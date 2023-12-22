@@ -27,11 +27,9 @@ public class ManagerDao {
             while (resultSet.next()) {
                 String id = resultSet.getString("manager_id");
                 String username = resultSet.getString("manager_username");
-                String managerPasswordHash = resultSet.getString("manager_password_hash");
-                String managerSalt = resultSet.getString("manager_salt");
                 Date createTime = resultSet.getDate("create_time");
                 Date updateTime = resultSet.getDate("update_time");
-                managersList.add(new Manager(id, username, managerPasswordHash, managerSalt, createTime, updateTime));
+                managersList.add(new Manager(id, username, "", "", createTime, updateTime));
             }
             return managersList;
         } catch (SQLException e) {

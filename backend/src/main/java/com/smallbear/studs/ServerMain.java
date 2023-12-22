@@ -21,11 +21,16 @@ public class ServerMain {
         servletContext.setContextPath("/api");
 
         servletContext.addServlet(LoginServlet.class, "/login");
+        //
         servletContext.addServlet(GetBuildingsServlet.class, "/getBuildings");
         servletContext.addServlet(GetBuildingCountServlet.class, "/getBuildingCount");
         servletContext.addServlet(AddBuildingServlet.class, "/addBuilding");
         servletContext.addServlet(UpdateBuildingServlet.class, "/updateBuilding");
+        //
         servletContext.addServlet(GetDormitoryServlet.class, "/getDormitory");
+        //
+        servletContext.addServlet(GetDepartmentsServlet.class, "/getDepartments");
+        servletContext.addServlet(GetDepartmentCountServlet.class, "/getDepartmentCount");
 
         servletContext.addFilter(ServerFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         servletContext.addFilter(LoggingFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));

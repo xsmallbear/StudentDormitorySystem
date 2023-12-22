@@ -170,7 +170,7 @@ const BuldingManager: React.FC = () => {
     //楼栋栋总数量
     const [buildingCount, setBuildingCount] = useState<number>(0)
     const [currentPage, setcurrentPage] = useState<number>(1)
-    const [currentPageSize, setCurrentPageSize] = useState<number>(20)
+    const [currentPageSize, setCurrentPageSize] = useState<number>(10)
     const [refresh, setrefresh] = useState(false)
     const navigate = useNavigate()
 
@@ -178,24 +178,20 @@ const BuldingManager: React.FC = () => {
 
     //获取楼栋的数量
     useEffect(() => {
-        const getBuildingCount = async () => {
+        const fetchCount = async () => {
             const data: DataResponse = await BuildingAPI.getCount()
             if (data.code === 200) {
                 setBuildingCount(data.data)
             }
         }
-        getBuildingCount()
+        fetchCount()
     }, [])
 
     //回调刷新
     useEffect(() => {
         const fetchData = async () => {
             const data: DataResponse = (await BuildingAPI.getPage(currentPageSize, (currentPage - 1) * currentPageSize))
-            console.log(data)
-            if (data.code === 200) {
-                console.log(data)
-                setBuildingList([...data.data])
-            }
+            setBuildingList([...data.data])
         }
         fetchData()
     }, [refresh,
@@ -203,11 +199,24 @@ const BuldingManager: React.FC = () => {
         currentPage])
 
 
-    const renderPage = () => { }
+    const renderPage = () => <Pagination >
+        {<Pagination.Prev disabled={currentPage >= 1} onClick={() => setcurrentPage(currentPage - 1)} />}
+        {
+            Array.from({ length: Math.ceil(buildingCount / currentPageSize) }, (_, index) => {
+                const pageNmber = index + 1
+                return (<Pagination.Item active={currentPage === pageNmber} onClick={() => { setcurrentPage(pageNmber) }}>{pageNmber}</Pagination.Item>)
+            })
+        }
+        {<Pagination.Next disabled={currentPage >= Math.ceil(buildingCount / currentPageSize)} onClick={() => setcurrentPage(currentPage + 1)} />}
+    </Pagination>
+
 
     return (
         <>
             <Container fluid style={{ height: "100%" }}>
+                <Row className="mb-1">
+                    <h3>楼栋管理</h3>
+                </Row>
                 <Row className="mb-1">
                     <Col sm="auto">
                         <Button variant="primary" onClick={() => { navigate("../dormitory-list") }}>{"< "}返回</Button>
@@ -221,7 +230,7 @@ const BuldingManager: React.FC = () => {
                         <Table bordered hover responsive="xl">
                             <thead>
                                 <tr>
-                                    <th className="text-center">编号</th>
+                                    <th className="text-center" style={{ verticalAlign: "middle", width: "80px" }}>编号</th>
                                     <th className="text-center">楼栋名称</th>
                                     <th className="text-center">操作</th>
                                 </tr>
@@ -230,8 +239,8 @@ const BuldingManager: React.FC = () => {
                                 {buildingList!.map((value, index) => {
                                     return <>
                                         <tr key={index}>
-                                            <td className="text-center" style={{ verticalAlign: "middle", width: "80px" }}>
-                                                {index + 1}
+                                            <td className="text-center" style={{ verticalAlign: "middle" }}>
+                                                {(currentPage - 1) * currentPageSize + index + 1}
                                             </td>
                                             <td className="text-center" style={{ verticalAlign: "middle" }}>
                                                 {value.name}
@@ -249,16 +258,7 @@ const BuldingManager: React.FC = () => {
                 </Row>
                 <Row>
                     <Col sm="auto" className="d-flex justify-content-center align-items-center">
-                        <Pagination >
-                            {<Pagination.Prev disabled={currentPage >= 1} onClick={() => setcurrentPage(currentPage - 1)} />}
-                            {
-                                Array.from({ length: Math.ceil(buildingCount / currentPageSize) }, (_, index) => {
-                                    const pageNmber = index + 1
-                                    return (<Pagination.Item active={currentPage === pageNmber} onClick={() => { setcurrentPage(pageNmber) }}>{pageNmber}</Pagination.Item>)
-                                })
-                            }
-                            {<Pagination.Next disabled={currentPage >= buildingCount} onClick={() => setcurrentPage(currentPage + 1)} />}
-                        </Pagination>
+                        {renderPage()}
                     </Col>
                     <Col sm="auto" >
                         <Form.Group as={Row} className="mb-3" >
@@ -269,6 +269,7 @@ const BuldingManager: React.FC = () => {
                                 <Form.Select onChange={(event: ChangeEvent<HTMLSelectElement>) => {
                                     setCurrentPageSize(Number(event.target.value))
                                 }}>
+                                    <option value="10">10</option>
                                     <option value="20">20</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Building {
+public class Department {
     private String id;
     private String name;
     private String createTime;

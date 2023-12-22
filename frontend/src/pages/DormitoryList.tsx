@@ -49,12 +49,15 @@ function DormitoryList() {
         }
     }
 
-    const renderDormitoryList = (datas:Array<Dormitory>) => {
-        
+    const renderDormitoryList = (datas: Array<Dormitory>) => {
+
     }
 
     return (<>
         <Container fluid>
+            <Row className="mb-1">
+                <h3>宿舍信息管理</h3>
+            </Row>
             <Row className="mb-3">
                 <Col xs="auto">
                     <BuildingInfoModa modalData={[buildingSelect!, dormitoriesList]} />
@@ -74,7 +77,7 @@ function DormitoryList() {
                     </Form.Select>
                 </Col>
             </Row>
-            <Row className="mb-3">
+            <Row className="mb-1">
                 <Col xl={8}>
                     <Form.Control type="text" placeholder="请输入宿舍名称进行搜索" />
                 </Col>

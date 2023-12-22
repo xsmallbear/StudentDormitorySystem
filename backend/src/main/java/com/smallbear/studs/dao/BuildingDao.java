@@ -34,7 +34,9 @@ public class BuildingDao {
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String name = resultSet.getString("name");
-                Building dataBuildings = new Building(id, name);
+                String createTime = resultSet.getString("createTime");
+                String updateTime = resultSet.getString("updateTime");
+                Building dataBuildings = new Building(id, name, createTime, updateTime);
                 buildingsList.add(dataBuildings);
             }
             return buildingsList;
@@ -79,7 +81,9 @@ public class BuildingDao {
             if (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String buildingName = resultSet.getString("name");
-                return new Building(id, buildingName);
+                String createTime = resultSet.getString("createTime");
+                String updateTime = resultSet.getString("updateTime");
+                return new Building(id, buildingName, createTime, updateTime);
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -102,7 +106,9 @@ public class BuildingDao {
             if (resultSet.next()) {
                 String buildingId = resultSet.getString("id");
                 String name = resultSet.getString("name");
-                return new Building(buildingId, name);
+                String createTime = resultSet.getString("createTime");
+                String updateTime = resultSet.getString("updateTime");
+                return new Building(buildingId, name, createTime, updateTime);
             }
         } catch (SQLException e) {
             e.fillInStackTrace();

@@ -4,10 +4,12 @@ function StudentList() {
     return (
         <>
             <Container fluid style={{ height: "100%" }}>
-                <Row>
-                    <h1>学生信息管理</h1>
+                <Row className="mb-3">
+                    <h3>学生信息管理</h3>
                 </Row>
-                <Row>
+                <Row className="mb-3">
+                </Row>
+                <Row className="mb-3">
                     <Table bordered hover responsive="xl">
                         <thead>
                             <tr>
