@@ -31,6 +31,9 @@ public class ServerMain {
         //
         servletContext.addServlet(GetDepartmentsServlet.class, "/getDepartments");
         servletContext.addServlet(GetDepartmentCountServlet.class, "/getDepartmentCount");
+        //
+        servletContext.addServlet(GetStudentsServlet.class, "/getStudents");
+        servletContext.addServlet(GetStudentCountServlet.class, "/getStudentCount");
 
         servletContext.addFilter(ServerFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         servletContext.addFilter(LoggingFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));

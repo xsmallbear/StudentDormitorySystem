@@ -1,6 +1,8 @@
 export default interface Student {
     id: string
     name: string
-    dormitoryId: number
-    departmentId: number
+    sex: string
+    departmentId: string
+    createTime:string
+    updateTime:string
 }

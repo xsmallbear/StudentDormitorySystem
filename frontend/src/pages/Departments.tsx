@@ -9,7 +9,7 @@ const Departments: React.FC = () => {
     const [departmentCount, setDepartmentCount] = useState<number>(0)
     const [currentPage, setcurrentPage] = useState<number>(1)
     const [currentPageSize, setCurrentPageSize] = useState<number>(10)
-    const [refresh, setrefresh] = useState(false)
+    const [refresh, setrefresh] = useState<Boolean>(false)
 
     useEffect(() => {
         const fetchCount = async () => {

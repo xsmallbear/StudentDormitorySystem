@@ -1,8 +1,9 @@
 package com.smallbear.studs.servlet;
 
-import com.smallbear.studs.dao.BuildingDao;
+import com.smallbear.studs.dao.StudentDao;
 import com.smallbear.studs.model.Building;
 import com.smallbear.studs.model.DataResponse;
+import com.smallbear.studs.model.Student;
 import com.smallbear.studs.util.ServletUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -10,25 +11,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class GetBuildingsServlet extends HttpServlet {
-    BuildingDao buildingsDao = new BuildingDao();
+public class GetStudentsServlet extends HttpServlet {
+    StudentDao studentDao = new StudentDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String limit = req.getParameter("limit");
         String offset = req.getParameter("offset");
         DataResponse dataResponse = new DataResponse();
-        List<Building> buildingsList;
+        List<Student> studentList;
         if (limit != null && offset != null && !limit.isEmpty() && !offset.isEmpty()) {
-            buildingsList = buildingsDao.gets(Integer.parseInt(limit), Integer.parseInt(offset));
+            studentList = studentDao.gets(Integer.parseInt(limit), Integer.parseInt(offset));
         } else {
-            buildingsList = buildingsDao.gets();
+            studentList = studentDao.gets();
         }
         dataResponse.setCode(HttpServletResponse.SC_OK);
-        dataResponse.setData(buildingsList);
+        dataResponse.setData(studentList);
         ServletUtil.sendJsonDataToResponse(resp, dataResponse);
     }
 }
